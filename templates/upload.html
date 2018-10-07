@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="jumbotron text-center">
+  <h1>Upload A File</h1>
+  <!-- TODO: CSS - Fix this formating --> 
+  <br><br><br><br>
+  <br><br><br><br>
+  <form method=post enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value=Upload>
+  </form>
+<div>
+
+
+{% endblock %}
