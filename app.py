@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, flash, redirect, url_for, ses
 import os
 from RegisterForm import RegisterForm
 from flask_mysqldb import MySQL
+from FileForm import FileForm
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
 #from flask.ext.mysql import MySQL
@@ -26,6 +27,30 @@ mysql.init_app(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part', 'danger')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file', 'danger')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            flash('Yo, File saved!', 'success')
+            return redirect(url_for('dashboard', filename=filename))
+    return(redirect(url_for('dashboard')))
+
 
 # User login
 @app.route('/signin', methods=['GET', 'POST'])
@@ -67,7 +92,11 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    form = FileForm(request.form)
+    if request.method == 'POST' and form.validate():
+        fileName = form.fileName.data
+        fileDescription = form.fileDescription.data
+    return render_template('dashboard.html', form=form)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -114,4 +143,4 @@ def upload_file():
 
 if __name__ == '__main__':
     app.secret_key = 'theNurseNeedsFiles18#'
-    app.run(debug=True)
+    app.run(port = 5000, debug=True)
