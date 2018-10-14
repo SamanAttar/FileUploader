@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, flash, redirect, url_for, session, logging
 import os
 from RegisterForm import RegisterForm
+from FileForm import FileForm
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
@@ -67,7 +68,11 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    form = FileForm(request.form)
+    if request.method == 'POST' and form.validate():
+        fileName = form.fileName.data
+        fileDescription = form.fileDescription.data
+    return render_template('dashboard.html', form=form)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -95,7 +100,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
+def upload():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
