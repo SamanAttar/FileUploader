@@ -18,7 +18,7 @@
       </div>
       <div class="modal-body">
         {% from "includes/_formhelpers.html" import render_field %}
-        <form method="POST" enctype=multipart/form-data action="{{ url_for('dashboard') }}">
+        <form method="POST" enctype=multipart/form-data action="{{ url_for('upload') }}">
           <div class="form-group">
             {{ render_field(form.fileName, class_="form-control") }}
           </div>
