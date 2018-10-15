@@ -8,14 +8,14 @@
   <div>
     <br>
     <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">Upload a File</button>
+    <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#fileModal">View My Files</button>
   </div>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-      </div>
+      <div class="modal-header">Add File</div>
       <div class="modal-body">
         {% from "includes/_formhelpers.html" import render_field %}
         <form method="POST" enctype=multipart/form-data action="{{ url_for('upload') }}">
@@ -37,5 +37,49 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"> View Files </div>
+      <div class="modal-body">
+        <table border = 1>
+             <thead>
+                <td> FileName </td>
+                <td> FileId </td>
+                <td> File Description </td>
+                <td> File Value </td>
+                <td> User Id </td>
+             </thead>
+
+             {% for row in rows %}
+                <tr>
+                   <td>{{row["fileName"]}}</td>
+                   <td>{{row["fileId"]}}</td>
+                   <td> {{ row["fileDescription"]}}</td>
+                   <td>{{row['fileValue']}}</td>
+                   <td>{{row['userId']}}</td>
+                </tr>
+             {% endfor %}
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+        <button type="submit" class="btn btn-primary"> Submit </button>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
 
 {% endblock %}

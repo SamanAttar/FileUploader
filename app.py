@@ -77,7 +77,8 @@ def dashboard():
     if request.method == 'POST' and form.validate():
         fileName = form.fileName.data
         fileDescription = form.fileDescription.data
-    return render_template('dashboard.html', form=form)
+    rows = view_files()
+    return render_template('dashboard.html', form=form, rows=rows)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -124,11 +125,14 @@ def upload():
         if file and allowed_file(file.filename):
             form = FileForm(request.form)
 
+
+
             fileName = form.fileName.data
             fileDescription = form.fileDescription.data
-            msg = "File Name" + str(fileName)
-            flash(msg, 'success')
-            flash(fileDescription, 'success')
+            fileValue = form.fileValue.data
+
+            #upload_file_to_s3(fileValue, bucket_name, acl="public-read")
+
             userId = session["userId"]
 
             cur = mysql.connection.cursor()
@@ -143,11 +147,19 @@ def upload():
             return redirect(url_for('dashboard', filename=filename))
     return(redirect(url_for('dashboard')))
 
+@app.route('/view_files', methods=['GET', 'POST'])
+def view_files():
+    currentUserId = session['userId']
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM files WHERE userId = %s", [currentUserId])
+    rows = cur.fetchall()
+    cur.close()
+    return rows
+
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 if __name__ == '__main__':
     app.secret_key = 'theNurseNeedsFiles18#'
