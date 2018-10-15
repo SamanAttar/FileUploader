@@ -57,7 +57,7 @@ def login():
                 session['logged_in'] = True
                 session['username'] = username
                 session['userId'] = userId
-        
+
                 flash('You are now logged in', 'success')
                 return redirect(url_for('dashboard'))
             else:
@@ -100,6 +100,12 @@ def signup():
         return render_template('signup.html', form = form)
     return render_template('signup.html', form = form)
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out', 'success')
+    return render_template('index.html')
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
@@ -107,7 +113,6 @@ def upload():
         if 'file' not in request.files:
             flash('No file part', 'danger')
             return redirect(request.url)
-
         file = request.files['file']
 
         # if user does not select file, browser also
