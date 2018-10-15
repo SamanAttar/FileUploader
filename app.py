@@ -49,13 +49,15 @@ def login():
             # Get stored hash
             data = cur.fetchone()
             password = data['password']
+            userId = data['id']
 
             # Compare Passwords
             if sha256_crypt.verify(password_candidate, password):
                 # Passed
                 session['logged_in'] = True
                 session['username'] = username
-
+                session['userId'] = userId
+        
                 flash('You are now logged in', 'success')
                 return redirect(url_for('dashboard'))
             else:
@@ -101,7 +103,6 @@ def signup():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part', 'danger')
@@ -116,6 +117,21 @@ def upload():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
+            form = FileForm(request.form)
+
+            fileName = form.fileName.data
+            fileDescription = form.fileDescription.data
+            msg = "File Name" + str(fileName)
+            flash(msg, 'success')
+            flash(fileDescription, 'success')
+            userId = session["userId"]
+
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO files(userId, fileName, fileDescription, fileValue) VALUES(%s, %s, %s, %s)", (userId, fileName, fileDescription, file))
+            mysql.connection.commit()
+            flash('You are now registered!', 'success')
+            cur.close()
+
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash('Yo, File saved!', 'success')
