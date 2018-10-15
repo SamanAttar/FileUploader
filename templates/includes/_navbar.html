@@ -5,17 +5,33 @@
    </button>
    <div class="collapse navbar-collapse" id="navbarCollapse">
      <ul class="navbar-nav mr-auto">
+       {% if session.logged_in %}
        <li class="nav-item active">
          <a class="nav-link" href="/dashboard"> Dashboard<span class="sr-only">(current)</span></a>
        </li>
+       {% endif %}
     </ul>
     <ul class="navbar-nav navbar-right">
-       <li class="nav-item active">
-         <a class="nav-link" href="/signin">Sign  In <span class="sr-only">(current)</span></a>
-       </li>
-       <li class="nav-item active">
-         <a class="nav-link" href="/signup">Sign Up <span class="sr-only">(current)</span></a>
-       </li>
+      {% if session.logged_in %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{session.username}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/profile"> View Profile </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/logout">Log Out</a>
+        </div>
+      </li>
+
+      {% else %}
+         <li class="nav-item active">
+           <a class="nav-link" href="/signin">Sign  In <span class="sr-only">(current)</span></a>
+         </li>
+         <li class="nav-item active">
+           <a class="nav-link" href="/signup">Sign Up <span class="sr-only">(current)</span></a>
+         </li>
+      {% endif %}
      </ul>
    </div>
  </nav>
