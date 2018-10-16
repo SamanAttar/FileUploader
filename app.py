@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, flash, redirect, url_for, session, logging
-import os
+import os, random
 from RegisterForm import RegisterForm
 from FileForm import FileForm
 from flask_mysqldb import MySQL
@@ -135,9 +135,10 @@ def upload():
 
             #the actual filename from the uploaded file
             filename = secure_filename(file.filename)
+            s3id = str(random.randint(1,80000000000000000000000))
 
             #fileValue stores the URL
-            fileURL = str(upload_file_to_s3(file, filename, fileContentType, S3_BUCKET, acl="public-read"))
+            fileURL = str(upload_file_to_s3(file, filename, fileContentType, S3_BUCKET, s3id, acl="public-read"))
             #flash (fileValue, 'danger')
             userId = session["userId"]
 
@@ -188,22 +189,23 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def upload_file_to_s3(file, fileName, fileContentType, bucket_name, acl="public-read"):
+def upload_file_to_s3(file, fileName, fileContentType, bucket_name, s3id, acl="public-read"):
     # Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
     try:
         s3.upload_fileobj(
             file,
             bucket_name,
-            fileName,
+            s3id,
             ExtraArgs={
                 "ACL": acl,
                 "ContentType" : fileContentType
             }
         )
+
     except Exception as e:
         print("Something Happened: ", e)
         return e
-    return "{}{}".format(S3_LOCATION, file.filename)
+    return "{}{}".format(S3_LOCATION, s3id)
 
 
 if __name__ == '__main__':
