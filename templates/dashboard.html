@@ -46,20 +46,14 @@
       <div class="modal-body">
         <table border = 1>
              <thead>
-                <td> FileName </td>
-                <td> FileId </td>
+                <td> File </td>
                 <td> File Description </td>
-                <td> File Value </td>
-                <td> User Id </td>
              </thead>
 
              {% for row in rows %}
                 <tr>
-                   <td>{{row["fileName"]}}</td>
-                   <td>{{row["fileId"]}}</td>
+                   <td> <a href="{{row['fileURL']}}"> {{row["fileName"]}} </a> </td>
                    <td> {{ row["fileDescription"]}}</td>
-                   <td>{{row['fileValue']}}</td>
-                   <td>{{row['userId']}}</td>
                 </tr>
              {% endfor %}
           </table>
