@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1> Your Profile </h1>
+    <p class="lead">
+      <div> Name:     {{result.name}}</div>
+      <div> Username: {{result.username}}</div>
+      <div> Email:    {{result.email}}</div>
+    </p>
+  <div>
+{% endblock %}
