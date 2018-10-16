@@ -5,7 +5,12 @@ from FileForm import FileForm
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
-#from flask.ext.mysql import MySQL
+from config import S3_BUCKET, S3_LOCATION, S3_KEY, S3_SECRET
+from helpers import s3
+import boto
+import boto.s3
+from boto.s3.key import Key
+import boto3
 
 
 UPLOAD_FOLDER = ''
@@ -125,26 +130,25 @@ def upload():
         if file and allowed_file(file.filename):
             form = FileForm(request.form)
 
-
-
             fileName = form.fileName.data
             fileDescription = form.fileDescription.data
-            fileValue = form.fileValue.data
+            fileContentType = file.content_type
 
-            #upload_file_to_s3(fileValue, bucket_name, acl="public-read")
+            #the actual filename from the uploaded file
+            filename = secure_filename(file.filename)
 
+            #fileValue stores the URL
+            fileURL = str(upload_file_to_s3(file, filename, fileContentType, S3_BUCKET, acl="public-read"))
+            #flash (fileValue, 'danger')
             userId = session["userId"]
 
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO files(userId, fileName, fileDescription, fileValue) VALUES(%s, %s, %s, %s)", (userId, fileName, fileDescription, file))
+            cur.execute("INSERT INTO files(userId, fileName, fileDescription, fileURL) VALUES(%s, %s, %s, %s)", (userId, fileName, fileDescription, fileURL))
             mysql.connection.commit()
-            flash('You are now registered!', 'success')
             cur.close()
 
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash('Yo, File saved!', 'success')
-            return redirect(url_for('dashboard', filename=filename))
+            flash('File Saved!', 'success')
+            #return redirect(url_for('dashboard', filename=filename))
     return(redirect(url_for('dashboard')))
 
 @app.route('/view_files', methods=['GET', 'POST'])
@@ -156,10 +160,28 @@ def view_files():
     cur.close()
     return rows
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def upload_file_to_s3(file, fileName, fileContentType, bucket_name, acl="public-read"):
+    # Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
+
+    try:
+        s3.upload_fileobj(
+            file,
+            bucket_name,
+            fileName,
+            ExtraArgs={
+                "ACL": acl,
+                "ContentType" : fileContentType
+            }
+        )
+    except Exception as e:
+        print("Something Happened: ", e)
+        return e
+    return "{}{}".format(S3_LOCATION, file.filename)
+
 
 if __name__ == '__main__':
     app.secret_key = 'theNurseNeedsFiles18#'
