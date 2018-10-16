@@ -149,10 +149,21 @@ def upload():
             flash('File Saved!', 'success')
     return(redirect(url_for('dashboard')))
 
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    currentUserId = session['userId']
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT name, email, username FROM users WHERE id = %s", [currentUserId])
+    result = cur.fetchone()
+    cur.close()
+    return render_template('profile.html', result=result)
+
+
 @app.route('/view_files', methods=['GET', 'POST'])
 def view_files():
     # TODO: Should not store userID in the session
-    # either encrypt and create a new session token every few minutes 
+    # either encrypt and create a new session token every few minutes
     currentUserId = session['userId']
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT admin FROM users WHERE id = %s", [currentUserId])
