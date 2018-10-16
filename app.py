@@ -73,7 +73,6 @@ def login():
         else:
             error = 'Username not found'
             return render_template('signin.html', error=error)
-
     return render_template('signin.html')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -148,16 +147,30 @@ def upload():
             cur.close()
 
             flash('File Saved!', 'success')
-            #return redirect(url_for('dashboard', filename=filename))
     return(redirect(url_for('dashboard')))
 
 @app.route('/view_files', methods=['GET', 'POST'])
 def view_files():
+    # TODO: Should not store userID in the session
+    # either encrypt and create a new session token every few minutes 
     currentUserId = session['userId']
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT * FROM files WHERE userId = %s", [currentUserId])
-    rows = cur.fetchall()
+    result = cur.execute("SELECT admin FROM users WHERE id = %s", [currentUserId])
+    result = cur.fetchone()
     cur.close()
+    #Check to see if the user is an admin
+    # if true
+    if '1' in str(result):
+        cur = mysql.connection.cursor()
+        # Get all the files
+        result = cur.execute("SELECT * FROM files")
+        rows = cur.fetchall()
+        cur.close()
+    else:
+        cur = mysql.connection.cursor()
+        result = cur.execute("SELECT * FROM files WHERE userId = %s", [currentUserId])
+        rows = cur.fetchall()
+        cur.close()
     return rows
 
 def allowed_file(filename):
@@ -166,7 +179,6 @@ def allowed_file(filename):
 
 def upload_file_to_s3(file, fileName, fileContentType, bucket_name, acl="public-read"):
     # Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
-
     try:
         s3.upload_fileobj(
             file,
