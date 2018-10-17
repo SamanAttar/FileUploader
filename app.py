@@ -93,7 +93,12 @@ def dashboard():
     # to reference the files
 @app.route('/displayFile/<string:id>')
 def displayFile(id):
-    return(redirect(url_for('dashboard')))
+    cur = mysql.connection.cursor()
+    fileUrl = cur.execute("SELECT fileURL FROM files WHERE fileId = %s", [id])
+    fileURL = cur.fetchone()
+    fileURL = fileURL['fileURL']
+    response = download(fileURL)
+    return(response)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -217,7 +222,6 @@ def upload_file_to_s3(file, fileName, fileContentType, bucket_name, s3id, acl="p
     return "{}{}".format(S3_LOCATION, s3id)
 
 def download(url):
-    url = 'https://s3.us-east-2.amazonaws.com/fileuploader3102662208/42737783734946901767151'
     flash("Download Function called", "success")
     req = requests.get(url, stream=True)
     flash("got the request", "success")
