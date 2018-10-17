@@ -94,11 +94,20 @@ def dashboard():
 @app.route('/displayFile/<string:id>')
 def displayFile(id):
     cur = mysql.connection.cursor()
-    fileUrl = cur.execute("SELECT fileURL FROM files WHERE fileId = %s", [id])
-    fileURL = cur.fetchone()
-    fileURL = fileURL['fileURL']
-    response = download(fileURL)
-    return(response)
+    query = cur.execute("SELECT userId, fileURL FROM files WHERE fileId = %s", [id])
+    query = cur.fetchone()
+
+    try:
+        if query['userId'] == session['userId']:
+            response = download(query['fileURL'])
+            return(response)
+        else:
+            error = 'No such file'
+            return render_template('index.html', error=error)
+    except Exception as e:
+        error = "No such file"
+        return render_template('index.html', error=error)
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -222,11 +231,8 @@ def upload_file_to_s3(file, fileName, fileContentType, bucket_name, s3id, acl="p
     return "{}{}".format(S3_LOCATION, s3id)
 
 def download(url):
-    flash("Download Function called", "success")
     req = requests.get(url, stream=True)
-    flash("got the request", "success")
     return Response(stream_with_context(req.iter_content()), content_type=req.headers['content-type'])
-
 
 if __name__ == '__main__':
     app.secret_key = 'theNurseNeedsFiles18#'
