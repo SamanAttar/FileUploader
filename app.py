@@ -159,8 +159,6 @@ def upload():
             cur.close()
 
             flash('File Saved!', 'success')
-
-            download_file_from_s3(fileName, fileContentType, S3_BUCKET, s3id)
     return(redirect(url_for('dashboard')))
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -217,20 +215,6 @@ def upload_file_to_s3(file, fileName, fileContentType, bucket_name, s3id, acl="p
         print("Something Happened: ", e)
         return e
     return "{}{}".format(S3_LOCATION, s3id)
-
-def download_file_from_s3(fileName, fileContentType, bucket_name, s3id, acl="public-read"):
-    try:
-        s3 = boto3.client('s3')
-        with open(s3id, 'wb') as data:
-            s3.download_fileobj(bucket_name, S3_KEY, s3id)
-
-        flash("File Downloaded", "success")
-    except botocore.exceptions.ClientError as e:
-       if e.response['Error']['Code'] == "404":
-           print("The object does not exist.")
-       else:
-           raise
-    return 0
 
 def download(url):
     url = 'https://s3.us-east-2.amazonaws.com/fileuploader3102662208/42737783734946901767151'
