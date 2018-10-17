@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, url_for, session, logging
+from flask import Flask, request, render_template, flash, redirect, url_for, session, logging, Response, stream_with_context
 import os, random
 from RegisterForm import RegisterForm
 from FileForm import FileForm
@@ -11,6 +11,10 @@ import boto
 import boto.s3
 from boto.s3.key import Key
 import boto3
+import botocore
+import requests
+
+
 
 
 UPLOAD_FOLDER = ''
@@ -84,6 +88,13 @@ def dashboard():
     rows = view_files()
     return render_template('dashboard.html', form=form, rows=rows)
 
+# TODO: create a mapping between fileId and another
+# IDEA: count how many files a user has in the DB, and store that as a secondary id
+    # to reference the files
+@app.route('/displayFile/<string:id>')
+def displayFile(id):
+    return(redirect(url_for('dashboard')))
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm(request.form)
@@ -148,8 +159,9 @@ def upload():
             cur.close()
 
             flash('File Saved!', 'success')
-    return(redirect(url_for('dashboard')))
 
+            download_file_from_s3(fileName, fileContentType, S3_BUCKET, s3id)
+    return(redirect(url_for('dashboard')))
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -159,7 +171,6 @@ def profile():
     result = cur.fetchone()
     cur.close()
     return render_template('profile.html', result=result)
-
 
 @app.route('/view_files', methods=['GET', 'POST'])
 def view_files():
@@ -171,16 +182,17 @@ def view_files():
     result = cur.fetchone()
     cur.close()
     #Check to see if the user is an admin
-    # if true
+    # if true get all files in the DB
     if '1' in str(result):
         cur = mysql.connection.cursor()
         # Get all the files
-        result = cur.execute("SELECT * FROM files")
+        result = cur.execute("SELECT fileName, fileId, fileDescription FROM files")
         rows = cur.fetchall()
         cur.close()
+    #get the files of a specific user
     else:
         cur = mysql.connection.cursor()
-        result = cur.execute("SELECT * FROM files WHERE userId = %s", [currentUserId])
+        result = cur.execute("SELECT fileName, fileId, fileDescription FROM files WHERE userId = %s", [currentUserId])
         rows = cur.fetchall()
         cur.close()
     return rows
@@ -201,11 +213,31 @@ def upload_file_to_s3(file, fileName, fileContentType, bucket_name, s3id, acl="p
                 "ContentType" : fileContentType
             }
         )
-
     except Exception as e:
         print("Something Happened: ", e)
         return e
     return "{}{}".format(S3_LOCATION, s3id)
+
+def download_file_from_s3(fileName, fileContentType, bucket_name, s3id, acl="public-read"):
+    try:
+        s3 = boto3.client('s3')
+        with open(s3id, 'wb') as data:
+            s3.download_fileobj(bucket_name, S3_KEY, s3id)
+
+        flash("File Downloaded", "success")
+    except botocore.exceptions.ClientError as e:
+       if e.response['Error']['Code'] == "404":
+           print("The object does not exist.")
+       else:
+           raise
+    return 0
+
+def download(url):
+    url = 'https://s3.us-east-2.amazonaws.com/fileuploader3102662208/42737783734946901767151'
+    flash("Download Function called", "success")
+    req = requests.get(url, stream=True)
+    flash("got the request", "success")
+    return Response(stream_with_context(req.iter_content()), content_type=req.headers['content-type'])
 
 
 if __name__ == '__main__':

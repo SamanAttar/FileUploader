@@ -52,7 +52,7 @@
              <!-- TODO: Add search funtionality for an admin -->
              {% for row in rows %}
                 <tr>
-                   <td> <a href="{{row['fileURL']}}"> {{row["fileName"]}} </a> </td>
+                   <td> <a href="/displayFile/{{row['fileId']}}"> {{row["fileName"]}} </a> </td>
                    <td> {{ row["fileDescription"]}}</td>
                 </tr>
              {% endfor %}
