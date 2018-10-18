@@ -94,7 +94,7 @@ def dashboard():
 @app.route('/displayFile/<string:id>')
 def displayFile(id):
     cur = mysql.connection.cursor()
-    query = cur.execute("SELECT userId, fileURL FROM files WHERE fileId = %s", [id])
+    query = cur.execute("SELECT userId, fileURL FROM files WHERE s3id = %s", [id])
     query = cur.fetchone()
 
     try:
@@ -107,7 +107,6 @@ def displayFile(id):
     except Exception as e:
         error = "No such file"
         return render_template('index.html', error=error)
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -162,13 +161,23 @@ def upload():
             filename = secure_filename(file.filename)
             s3id = str(random.randint(1,80000000000000000000000))
 
+            cur = mysql.connection.cursor()
+            query = cur.execute("SELECT s3id FROM files")
+            query = cur.fetchall()
+            cur.close()
+
+            #Check to see the ungodly coincidence that this ID is already taken
+            # Maybe this isn't even worth doing O(n) complexity for a small chance
+            for row in query:
+                if row['s3id'] is s3id:
+                    s3id = str(random.randint(1,80000000000000000000000))
             #fileValue stores the URL
             fileURL = str(upload_file_to_s3(file, filename, fileContentType, S3_BUCKET, s3id, acl="public-read"))
             #flash (fileValue, 'danger')
             userId = session["userId"]
 
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO files(userId, fileName, fileDescription, fileURL) VALUES(%s, %s, %s, %s)", (userId, fileName, fileDescription, fileURL))
+            cur.execute("INSERT INTO files(userId, fileName, fileDescription, fileURL, s3id) VALUES(%s, %s, %s, %s, %s)", (userId, fileName, fileDescription, fileURL, s3id))
             mysql.connection.commit()
             cur.close()
 
@@ -186,8 +195,7 @@ def profile():
 
 @app.route('/view_files', methods=['GET', 'POST'])
 def view_files():
-    # TODO: Should not store userID in the session
-    # either encrypt and create a new session token every few minutes
+    # TODO either encrypt and create a new session token every few minutes
     currentUserId = session['userId']
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT admin FROM users WHERE id = %s", [currentUserId])
@@ -198,13 +206,13 @@ def view_files():
     if '1' in str(result):
         cur = mysql.connection.cursor()
         # Get all the files
-        result = cur.execute("SELECT fileName, fileId, fileDescription FROM files")
+        result = cur.execute("SELECT fileName, s3id, fileDescription FROM files")
         rows = cur.fetchall()
         cur.close()
     #get the files of a specific user
     else:
         cur = mysql.connection.cursor()
-        result = cur.execute("SELECT fileName, fileId, fileDescription FROM files WHERE userId = %s", [currentUserId])
+        result = cur.execute("SELECT fileName, s3id, fileDescription FROM files WHERE userId = %s", [currentUserId])
         rows = cur.fetchall()
         cur.close()
     return rows
