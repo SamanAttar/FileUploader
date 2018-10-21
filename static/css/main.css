@@ -1,4 +1,9 @@
 .cFluid {
   width: 94% !important;
   margin-top: 4% !important;
+  border-radius: 25px;
+}
+
+.cFluid:last-child {
+  margin-bottom: 4% !important;
 }
