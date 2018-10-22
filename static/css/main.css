@@ -11,14 +11,14 @@
 }
 
 .profileField {
-  border-bottom: 3px solid #E6E8EB;
+  border-bottom: 3px solid #88b2ba;
   padding-top: 2%;
   padding-bottom: 1px;
   font-family: 'Roboto', sans-serif;
 }
 
 .profileHeader {
-  background-color: #EBEDEE;
+  background-color: #88b2ba;
   padding-top: 2%;
   padding-bottom: 2%;
   padding-left: 3%;
@@ -28,10 +28,17 @@
 #profileContainer {
   margin-left: 5%;
   font-family: 'Roboto', sans-serif;
+  color: #d86220;
+  text-shadow: .05px .05px black;
+}
+
+.profile-page {
+  background: #88b2ba;
 }
 
 .pTest {
   position:relative;
+  font-size: 20px;
   bottom: 20px;
   text-align-last: right;
   -moz-text-align-last: right;
@@ -42,9 +49,43 @@
   padding-left: 30px;
   padding-top: 2%;
   padding-bottom: 3%;
+  color: #4c4b4a;
 }
 
 .profileType {
+  font-size: 20px;
   padding-left: 9px;
 
+}
+
+.dashboard {
+  position: absolute;
+  bottom: 10px;
+  width: 65%;
+  height: 90%;
+}
+
+#particles-js {
+  position: absolute;
+  top:0px;
+
+  left: 65%;
+  width: 35%;
+
+  height: 100%;
+  z-index: -900;
+	background: #88b2ba;
+}
+
+#particles-js-dash {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+
+  left: 65%;
+  width: 35%;
+
+  
+  z-index: -900;
+	background: #88b2ba;
 }
