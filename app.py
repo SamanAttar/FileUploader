@@ -16,7 +16,6 @@ import requests
 
 
 
-
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = set(['pdf'])
 
