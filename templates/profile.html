@@ -1,12 +1,60 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="jumbotron text-center">
-    <h1> Your Profile </h1>
+
+
+    <div>
+      <header>
+        <div class = "accountHeader">
+          <h1> Personal Account </h1>
+        </div>
+      </header>
+
+
+      <main class="container" id="profileContainer">
+        <div>
+          <div >
+            <div>
+              <div class = "profileHeader">
+                <h1> Profile Information </h1>
+              </div>
+              <div class = "profileField">
+                <span class = "profileType">
+                  Name:
+                </span>
+                <span class="profileValue">
+                  <div class="pTest"> {{result.name}} </div>
+                </span>
+              </div>
+              <div class = "profileField">
+                <span class = "profileType">
+                  Username:
+                </span>
+                <span class="profileValue">
+                  <div class="pTest"> {{result.username}} </div>
+                </span>
+              </div>
+              <div class = "profileField">
+                <span class = "profileType">
+                  Email:
+                </span>
+                <span class="profileValue">
+                  <div class="pTest"> {{result.email}} </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    <!--
     <p class="lead">
       <div> Name:     {{result.name}}</div>
       <div> Username: {{result.username}}</div>
       <div> Email:    {{result.email}}</div>
     </p>
-  <div>
+  -->
+    <div>
+
 {% endblock %}
