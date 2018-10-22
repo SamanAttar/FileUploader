@@ -2,15 +2,66 @@
 
 {% block body %}
 
-<div class="jumbotron text-center">
-  <h1> Dashboard </h1>
-  <h3> Welcome {{session.username}} </h3>
-  <div>
-    <br>
-    <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">Upload a File</button>
-    <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#fileModal">View My Files</button>
+
+
+<div class = "dashboard">
+<header class="masthead text-center text-white">
+  <div class="masthead-content">
+    <div class="container-fluid cFluid" style="background-color: #88b2da;">
+      <br>
+        <h1> Dashboard </h1>
+        <h3> Welcome, {{session.username}} </h3>
+        <br>
+    </div>
   </div>
+  <div class="bg-circle-1 bg-circle"></div>
+  <div class="bg-circle-2 bg-circle"></div>
+  <div class="bg-circle-3 bg-circle"></div>
+  <div class="bg-circle-4 bg-circle"></div>
+</header>
+
+<section>
+  <div class="container-fluid text-white cFluid" style="background-color: #AFBFC0;">
+
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2">
+        <div class="p-5">
+          <img class="img-fluid rounded-circle" src="https://farm5.staticflickr.com/4473/37845654022_78b5c3633a_z.jpg" alt="">
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="p-5">
+          <h2 class="display-4"> Upload A File</h2>
+            <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">Go</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section>
+  <div class="container-fluid text-white cFluid" style="background-color: #969694;">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2">
+        <div class="p-5">
+          <img class="img-fluid rounded-circle" src="https://images.unsplash.com/photo-1521540124319-66c09f0d5999?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=de1ecb553b42a0e7c749445672db4cf2&amp;auto=format&amp;fit=crop&amp;w=1366&amp;q=80" alt="">
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="p-5">
+          <h2 class="display-4"> View your Files </h2>
+          <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#fileModal">Go</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </div>
+
+
+
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -66,5 +117,116 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div id="particles-js-dash">
+  <script>
+      particlesJS("particles-js-dash", {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 700
+        }
+      },
+      "color": {
+        "value": "#ffffff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        },
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 6,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "grab"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 140,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
 </div>
 {% endblock %}
