@@ -1,6 +1,6 @@
 .cFluid {
-  width: 94% !important;
   margin-top: 4% !important;
+  width: 100%;
   border-radius: 25px;
   font-family: 'Roboto', sans-serif;
 }
@@ -11,14 +11,14 @@
 }
 
 .profileField {
-  border-bottom: 3px solid #88b2ba;
+  border-bottom: 3px solid grey;
   padding-top: 2%;
   padding-bottom: 1px;
   font-family: 'Roboto', sans-serif;
 }
 
 .profileHeader {
-  background-color: #88b2ba;
+  background-color: grey;
   padding-top: 2%;
   padding-bottom: 2%;
   padding-left: 3%;
@@ -26,46 +26,57 @@
 }
 
 #profileContainer {
-  margin-left: 5%;
+  position: relative;
+
+  width: 100;
+  overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
-  color: #d86220;
+  color: black;
   text-shadow: .05px .05px black;
 }
 
 .profile-page {
-  background: #88b2ba;
+  color: #88b2ba;
+}
+
+.jumbo-title {
+  position: relative;
+  bottom: 10vh;
+  left: 20vh;
+
 }
 
 .pTest {
   position:relative;
-  font-size: 20px;
   bottom: 20px;
   text-align-last: right;
   -moz-text-align-last: right;
-  padding-right: 2%;
+  padding-right: 1%;
 }
 
 .accountHeader {
   padding-left: 30px;
   padding-top: 2%;
   padding-bottom: 3%;
-  color: #4c4b4a;
+  color: black;
 }
 
 .profileType {
-  font-size: 20px;
-  padding-left: 9px;
-
+  font-size: 16px;
+  padding-left: 2%;
+  padding-right: 10%;
 }
 
 .dashboard {
-  position: absolute;
+  position: relative;
   bottom: 10px;
-  width: 65%;
+  left: 5%;
+  width: 90%;
   height: 90%;
 }
 
 #particles-js {
+  display:none;
   position: absolute;
   top:0px;
 
@@ -85,7 +96,60 @@
   left: 65%;
   width: 35%;
 
-  
   z-index: -900;
 	background: #88b2ba;
+}
+
+.indexContainer {
+  background-image: url("https://images.unsplash.com/photo-1521540124319-66c09f0d5999?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=de1ecb553b42a0e7c749445672db4cf2&auto=format&fit=crop&w=983&q=80");
+  width: 77%;
+  left: 12%;
+  right: 11%;
+  position: relative;
+  top: 0%;
+}
+
+@media screen and (min-width:635px){
+    #particles-js {
+        display:block;
+    }
+    #profileContainer {
+      width: 75%;
+    }
+}
+
+.navbar-fixed-top {
+    min-height: 80px;
+}
+
+.nav-center {
+  position: relative;
+  left: 50%;
+}
+
+.nav-left {
+  position: relative;
+  left: .5%;
+}
+
+.navbar-default {
+  background-image: none;
+  background-repeat: no-repeat;
+ }
+.navbar-nav > li > a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    line-height: 80px;
+}
+
+h2 {
+  margin-bottom: 0px!important;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav > li > a {
+    line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
