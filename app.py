@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, url_for, session, logging, Response, stream_with_context
+from flask import Flask, request, render_template, flash, redirect, url_for, session, logging, Response, stream_with_context, json
 import os, random
 from RegisterForm import RegisterForm
 from FileForm import FileForm
@@ -13,8 +13,6 @@ from boto.s3.key import Key
 import boto3
 import botocore
 import requests
-
-
 
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = set(['pdf'])
@@ -190,7 +188,10 @@ def profile():
     result = cur.execute("SELECT name, email, username FROM users WHERE id = %s", [currentUserId])
     result = cur.fetchone()
     cur.close()
-    return render_template('profile.html', result=result)
+
+    with app.open_resource('./static/json/particleJSON.json') as f:
+        json_data = json.load(f)
+    return render_template('profile.html', result=result, json_data=json_data)
 
 @app.route('/view_files', methods=['GET', 'POST'])
 def view_files():
