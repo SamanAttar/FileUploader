@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, flash, redirect, url_for, ses
 import os, random
 from RegisterForm import RegisterForm
 from FileForm import FileForm
+from ContactForm import ContactForm
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
@@ -33,8 +34,13 @@ mysql.init_app(app)
 def test():
     return render_template('test.html')
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
+    form = FileForm(request.form)
+    if request.method == 'POST' and form.validate():
+        firstName = form.firstName.data
+        lastName = form.lastName.data
+        print(firstName)
     return render_template('index.html')
 
 # User login
