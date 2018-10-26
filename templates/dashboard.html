@@ -11,54 +11,13 @@
       <br>
         <h1> Dashboard </h1>
         <h3> Welcome, {{session.username}} </h3>
-        <br>
+      <br>
+        <button type="button" class="goButton" data-toggle="modal" data-target="#myModal">Upload A File</button>
+        <button type="button" class="goButton" data-toggle="modal" data-target="#fileModal">View your Files</button>
     </div>
   </div>
-  <div class="bg-circle-1 bg-circle"></div>
-  <div class="bg-circle-2 bg-circle"></div>
-  <div class="bg-circle-3 bg-circle"></div>
-  <div class="bg-circle-4 bg-circle"></div>
 </header>
-
-<section>
-  <div class="container-fluid cFluid">
-    <div class="row align-items-center">
-      <div class="col-lg-6 order-lg-2">
-        <div class="p-5">
-          <img class="img-fluid rounded-circle" src="https://farm5.staticflickr.com/4473/37845654022_78b5c3633a_z.jpg" alt="">
-        </div>
-      </div>
-      <div class="col-lg-6 order-lg-1">
-        <div class="p-5">
-          <h2 class="display-4"> Upload A File</h2>
-            <button type="button" class="goButton" data-toggle="modal" data-target="#myModal">Go</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container-fluid text-black cFluid">
-    <div class="row align-items-center">
-      <div class="col-lg-6 order-lg-2">
-        <div class="p-5">
-          <img class="img-fluid rounded-circle" src="https://images.unsplash.com/photo-1521540124319-66c09f0d5999?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=de1ecb553b42a0e7c749445672db4cf2&amp;auto=format&amp;fit=crop&amp;w=1366&amp;q=80" alt="">
-        </div>
-      </div>
-      <div class="col-lg-6 order-lg-1">
-        <div class="p-5">
-          <h2 class="display-4"> View your Files </h2>
-          <button type="button" class="goButton" data-toggle="modal" data-target="#fileModal">Go</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 </div>
-
-
-
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
@@ -79,7 +38,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
-            <button type="submit" class="btn btn-primary"> Submit </button>
+            <button type="submit" class="goButton"> Submit </button>
           </div>
         </form>
       </div>
@@ -107,8 +66,7 @@
           </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
-        <button type="submit" class="btn btn-primary"> Submit </button>
+        <button type="button" class="goButton" data-dismiss="modal"> Close </button>
       </div>
         </form>
       </div>
