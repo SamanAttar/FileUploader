@@ -5,9 +5,9 @@
 
 
 <div class = "dashboard">
-<header class="masthead text-center text-white">
+<header class="masthead text-center">
   <div class="masthead-content">
-    <div class="container-fluid cFluid" style="background-color: #88b2da;">
+    <div class="container-fluid cFluid">
       <br>
         <h1> Dashboard </h1>
         <h3> Welcome, {{session.username}} </h3>
@@ -21,8 +21,7 @@
 </header>
 
 <section>
-  <div class="container-fluid text-white cFluid" style="background-color: #AFBFC0;">
-
+  <div class="container-fluid cFluid">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-2">
         <div class="p-5">
@@ -32,16 +31,15 @@
       <div class="col-lg-6 order-lg-1">
         <div class="p-5">
           <h2 class="display-4"> Upload A File</h2>
-            <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">Go</button>
+            <button type="button" class="goButton" data-toggle="modal" data-target="#myModal">Go</button>
         </div>
       </div>
     </div>
   </div>
-
 </section>
 
 <section>
-  <div class="container-fluid text-white cFluid" style="background-color: #969694;">
+  <div class="container-fluid text-black cFluid">
     <div class="row align-items-center">
       <div class="col-lg-6 order-lg-2">
         <div class="p-5">
@@ -51,7 +49,7 @@
       <div class="col-lg-6 order-lg-1">
         <div class="p-5">
           <h2 class="display-4"> View your Files </h2>
-          <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#fileModal">Go</button>
+          <button type="button" class="goButton" data-toggle="modal" data-target="#fileModal">Go</button>
         </div>
       </div>
     </div>
