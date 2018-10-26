@@ -146,6 +146,16 @@
     line-height: 80px;
 }
 
+.contactForm {
+  border-color: black;
+  margin-left: 50% !important;
+  width: 50% !important;
+}
+.contactFormLeft {
+  margin-right: 50% !important;
+  width: 50% !important;
+}
+
 h2 {
   margin-bottom: 0px!important;
 }
