@@ -1,77 +1,76 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
-
-
-<div class = "dashboard">
-<header class="masthead text-center">
-  <div class="masthead-content">
-    <div class="container-fluid cFluid">
-      <br>
-        <h1> Dashboard </h1>
-        <h3> Welcome, {{session.username}} </h3>
-      <br>
-        <button type="button" class="goButton" data-toggle="modal" data-target="#myModal">Upload A File</button>
-        <button type="button" class="goButton" data-toggle="modal" data-target="#fileModal">View your Files</button>
-    </div>
+<div class="dashBody">
+  <div class = "dashboard">
+    <header class="masthead text-center">
+      <div class="masthead-content">
+        <div class="container-fluid cFluid">
+          <br>
+          <h1> Dashboard </h1>
+          <h3> Welcome, {{session.username}} </h3>
+          <br>
+          <button type="button" class="goButton" data-toggle="modal" data-target="#myModal">Upload A File</button>
+          <button type="button" class="goButton" data-toggle="modal" data-target="#fileModal">View your Files</button>
+        </div>
+      </div>
+    </header>
   </div>
-</header>
-</div>
 
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">Add File</div>
-      <div class="modal-body">
-        {% from "includes/_formhelpers.html" import render_field %}
-        <form method="POST" enctype=multipart/form-data action="{{ url_for('upload') }}">
-          <div class="form-group">
-            {{ render_field(form.fileName, class_="form-control") }}
-          </div>
-          <div class="form-group">
-            {{ render_field(form.fileDescription, class_="form-control", id="editor") }}
-          </div>
-          <div class="form-group">
-            <input type=file name=file>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
-            <button type="submit" class="goButton"> Submit </button>
-          </div>
-        </form>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">Add File
+        </div>
+        <div class="modal-body">
+          {% from "includes/_formhelpers.html" import render_field %}
+          <form method="POST" enctype=multipart/form-data action="{{ url_for('upload') }}">
+            <div class="form-group">
+              {{ render_field(form.fileName, class_="form-control") }}
+            </div>
+            <div class="form-group">
+              {{ render_field(form.fileDescription, class_="form-control", id="editor") }}
+            </div>
+            <div class="form-group">
+              <input type=file name=file>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+              <button type="submit" class="goButton"> Submit </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header"> View Files </div>
+      <div class="modal-header"> View Files
+      </div>
       <div class="modal-body">
         <table border = 1>
-             <thead>
-                <td> File </td>
-                <td> File Description </td>
-             </thead>
-             <!-- TODO: Add search funtionality for an admin -->
-             {% for row in rows %}
-                <tr>
-                   <td> <a href="/displayFile/{{row['s3id']}}"> {{row["fileName"]}} </a> </td>
-                   <td> {{ row["fileDescription"]}}</td>
-                </tr>
-             {% endfor %}
-          </table>
+          <thead>
+            <td> File </td>
+            <td> File Description </td>
+          </thead>
+          <!-- TODO: Add search funtionality for an admin -->
+          {% for row in rows %}
+          <tr>
+            <td> <a href="/displayFile/{{row['s3id']}}"> {{row["fileName"]}} </a> </td>
+            <td> {{ row["fileDescription"]}}</td>
+          </tr>
+          {% endfor %}
+        </table>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="goButton" data-dismiss="modal"> Close </button>
-      </div>
-        </form>
-      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="goButton" data-dismiss="modal"> Close </button>
     </div>
   </div>
 </div>
 </div>
+
+
 {% endblock %}
