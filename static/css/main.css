@@ -1,9 +1,11 @@
 .cFluid {
-    /* background: url('https://images.unsplash.com/photo-1520185910289-6d3713d2dc44?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bd657ef3633cd25ca2cc1ccdc74ec496&auto=format&fit=crop&w=1350&q=80') no-repeat;
-     */
-     margin-left: 10% !important;
-     margin-right: 10% !important;
-     width: 80% !important;
+     max-width: 100% !important;
+     max-height: 100% !important;
+     margin-left: 0px !important;
+     margin-right: 0px !important;
+
+     background-color: #f8f9d2;
+     background-image: linear-gradient(315deg, #f8f9d2 2%, #e8dbfc 74%);
 }
 
 .profileField {
@@ -90,35 +92,7 @@
   height: 90%;
 }
 
-#particles-js {
-  display:none;
-  position: absolute;
-  top:0px;
-
-  left: 65%;
-  width: 35%;
-
-  height: 100%;
-  z-index: -900;
-	background: #88b2ba;
-}
-
-#particles-js-dash {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-
-  left: 65%;
-  width: 35%;
-
-  z-index: -900;
-	background: #88b2ba;
-}
-
 @media screen and (min-width:635px){
-    #particles-js {
-        display:block;
-    }
     #profileContainer {
       width: 75%;
     }
@@ -156,11 +130,12 @@
 .contactFormLeft {
   margin-right: 50% !important;
   width: 50% !important;
+  text-align: left;
 }
 
 .footer {
   margin-bottom: 0px!important;
-  margin-top: 10%;
+  margin-top: 1%;;
 }
 
 h2 {
@@ -173,6 +148,12 @@ h2 {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+}
+
+.indexContent {
+padding-top: 10%;
+padding-bottom: 10%;
+
 }
 
 .dashBody {
