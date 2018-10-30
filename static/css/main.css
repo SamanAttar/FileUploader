@@ -48,6 +48,21 @@
   cursor: pointer;
 }
 
+.contact{
+  opacity: 1;
+  background-color: #a9989a;
+  border: none;
+  color: white;
+  padding: 16px 3px;
+  text-align: center;
+  font-size: 16px;
+  margin: 10px 1px;
+  position: relative;
+  right: 15%;
+  up: 5%;
+
+}
+
 .goButton:hover {opacity: 1}
 
 .profile-page {
@@ -128,6 +143,7 @@
   width: 50% !important;
 }
 .contactFormLeft {
+  padding-top: 3%;
   margin-right: 50% !important;
   width: 50% !important;
   text-align: left;
@@ -135,7 +151,8 @@
 
 .footer {
   margin-bottom: 0px!important;
-  margin-top: 1%;;
+  padding: 0px;
+  background-color: #a8aaad;
 }
 
 h2 {
