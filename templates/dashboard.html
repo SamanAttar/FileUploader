@@ -1,26 +1,26 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+
 <div class="dashBody">
-  <div class = "dashboard">
+  <div class="dashboard">
     <header class="masthead text-center">
       <div class="masthead-content">
-        <div class="container-fluid cFluid">
-          <br>
+          </br>
           <h1> Dashboard </h1>
           <h3> Welcome, {{session.username}} </h3>
-          <br>
-          <button type="button" class="goButton" data-toggle="modal" data-target="#myModal"> Upload A File </button>
+          </br>
+          <button type="button" class="goButton" data-toggle="modal" data-target="#myModal">Upload A File</button>
           <button type="button" class="goButton" data-toggle="modal" data-target="#fileModal">View your Files</button>
-        </div>
       </div>
     </header>
   </div>
+</div>
 
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">Add File
+        <div class="modal-header">Upload A File
         </div>
         <div class="modal-body">
           {% from "includes/_formhelpers.html" import render_field %}
@@ -70,7 +70,7 @@
     </div>
   </div>
 </div>
-</div>
+
 
 
 {% endblock %}
