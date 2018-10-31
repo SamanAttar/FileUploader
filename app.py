@@ -1,11 +1,17 @@
-from flask import Flask, request, render_template, flash, redirect, url_for, session, logging, Response, stream_with_context, json
+from flask import Flask, request,requests, render_template, flash, redirect, url_for, session, logging, Response, stream_with_context, json
 import os, random
+from flask_mysqldb import MySQL
+
+#import forms
 from RegisterForm import RegisterForm
 from FileForm import FileForm
 from ContactForm import ContactForm
-from flask_mysqldb import MySQL
+
+#security imports
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
+
+#AWS imports
 from config import S3_BUCKET, S3_LOCATION, S3_KEY, S3_SECRET
 from helpers import s3
 import boto
@@ -13,7 +19,6 @@ import boto.s3
 from boto.s3.key import Key
 import boto3
 import botocore
-import requests
 
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = set(['pdf'])
@@ -215,6 +220,7 @@ def view_files():
         result = cur.execute("SELECT fileName, s3id, fileDescription FROM files")
         rows = cur.fetchall()
         cur.close()
+        
     #get the files of a specific user
     else:
         cur = mysql.connection.cursor()
@@ -244,6 +250,7 @@ def upload_file_to_s3(file, fileName, fileContentType, bucket_name, s3id, acl="p
         return e
     return "{}{}".format(S3_LOCATION, s3id)
 
+# TODO: Optimize Download Time
 def download(url):
     req = requests.get(url, stream=True)
     return Response(stream_with_context(req.iter_content()), content_type=req.headers['content-type'])
